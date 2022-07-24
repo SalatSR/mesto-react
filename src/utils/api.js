@@ -30,12 +30,13 @@ class Api {
   }
 // Отправляем данные пользователя
   setUserData(data) {
+    console.log('data', data)
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         name: data.name,
-        about: data.job
+        about: data.about,
       })
     })
     .then(res => {

@@ -30,7 +30,6 @@ class Api {
   }
 // Отправляем данные пользователя
   setUserData(data) {
-    console.log('data', data)
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
@@ -43,13 +42,14 @@ class Api {
       return this._checkResponse(res);
     })
   }
-// Заменяем аватар пользователя
+// Заменяем аватар пользователя // avatar: item.link
   editProfileAvatar(item) {
+    console.log('item', item)
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
-        avatar: item.link
+        avatar: item,
       })
     })
     .then(res => {
@@ -103,9 +103,9 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-42',
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-43',
   headers: {
-    authorization: '62731dcc-205e-4eca-8046-563c23fbdff8',
+    authorization: '646992da-1ad1-4569-97b4-38159e3734ad',
     'Content-Type': 'application/json'
   }
 });

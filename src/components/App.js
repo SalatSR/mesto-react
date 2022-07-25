@@ -4,6 +4,7 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
@@ -49,10 +50,17 @@ function App() {
   }
 
   function handleUpdateUser(data) {
-    console.log('app', data)
+    console.log('handleUpdateUser', data)
     api.setUserData(data);
     setCorrentUser(data);
-      closeAllPopups();
+    closeAllPopups();
+  }
+
+  function handleUpdateAvatar(item) {
+    console.log('handleUpdateAvatar', item)
+    api.editProfileAvatar(item);
+    setCorrentUser(item);
+    closeAllPopups();
   }
 
   return ((
@@ -72,20 +80,11 @@ function App() {
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
           />
-          <PopupWithForm name="avatar-edit"
-            title="Обновить аватар"
-            nameForm="avatar-edit"
-            btnValue="Сохранить"
+          <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups} >
-            <input name="link"
-              id="urlAvatarEdit"
-              type="url"
-              className="popup__input popup__input_type_url-avatar"
-              placeholder="Ссылка на картинку"
-              required />
-            <span id="urlAvatarEdit-error" className="popup__error"></span>
-          </PopupWithForm>
+            onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
+          />
           <PopupWithForm name="card"
             title="Новое место"
             nameForm="card-info"

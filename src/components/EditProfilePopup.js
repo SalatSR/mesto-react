@@ -5,8 +5,8 @@ import PopupWithForm from './PopupWithForm';
 function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
 
   const currentUser = useContext(CurrentUserContext);
-  const [name, setName] = useState(currentUser?.name);
-  const [description, setDescription] = useState(currentUser?.about);
+  const [name, setName] = useState(null);
+  const [description, setDescription] = useState(null);
 
   useEffect(() => {
     if (currentUser) {
@@ -25,7 +25,6 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(name, description)
     onUpdateUser({
       name,
       about: description,
@@ -49,7 +48,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
         className="popup__input popup__input_type_name"
         placeholder="ФИО"
         required
-        value={name}
+        value={name || ''}
         onChange={handleNameChange}
       />
       <span id='name-error' className="popup__error"></span>
@@ -61,7 +60,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
         className="popup__input popup__input_type_job"
         placeholder="Специальность"
         required
-        value={description}
+        value={description || ''}
         onChange={handleAboutChange}
       />
       <span id='job-error' className="popup__error"></span>

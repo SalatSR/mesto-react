@@ -42,15 +42,14 @@ class Api {
       return this._checkResponse(res);
     })
   }
-// Заменяем аватар пользователя // avatar: item.link
+// Заменяем аватар пользователя
   editProfileAvatar(item) {
-    console.log('item', item)
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
-      body: JSON.stringify({
-        avatar: item,
-      })
+      body: JSON.stringify(
+        item
+      )
     })
     .then(res => {
       return this._checkResponse(res);

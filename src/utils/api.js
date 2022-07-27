@@ -15,18 +15,14 @@ class Api {
     return fetch(`${this._url}/cards`, {
       headers: this._headers
     })
-    .then(res => {
-      return this._checkResponse(res);
-    })
+    .then(res => this._checkResponse(res))
   }
 // Получаем данные пользователя
   getUserData() {
     return fetch(`${this._url}/users/me`, {
       headers: this._headers
     })
-    .then(res => {
-      return this._checkResponse(res);
-    })
+    .then(res => this._checkResponse(res))
   }
 // Отправляем данные пользователя
   setUserData(data) {
@@ -38,9 +34,7 @@ class Api {
         about: data.about,
       })
     })
-    .then(res => {
-      return this._checkResponse(res);
-    })
+    .then(res => this._checkResponse(res))
   }
 // Заменяем аватар пользователя
   editProfileAvatar(item) {
@@ -51,9 +45,7 @@ class Api {
         item
       )
     })
-    .then(res => {
-      return this._checkResponse(res);
-    })
+    .then(res => this._checkResponse(res))
   }
 // Отправляем данные новой карточки
   addNewCard(item) {
@@ -65,9 +57,7 @@ class Api {
         link: item.link
       })
     })
-    .then(res => {
-      return this._checkResponse(res);
-    })
+    .then(res => this._checkResponse(res))
   }
 // Удаляем карточку
   deleteCard(cardId) {
@@ -75,9 +65,7 @@ class Api {
       method: 'DELETE',
       headers: this._headers
     })
-    .then(res => {
-      return this._checkResponse(res);
-    })
+    .then(res => this._checkResponse(res))
   }
 // Ставим лайк
   likeCard(cardId) {
@@ -85,9 +73,7 @@ class Api {
       method: 'PUT',
       headers: this._headers
     })
-    .then(res => {
-      return this._checkResponse(res);
-    })
+    .then(res => this._checkResponse(res))
   }
 // Убираем лайк
   unlikeCard(cardId) {
@@ -95,9 +81,7 @@ class Api {
       method: 'DELETE',
       headers: this._headers
     })
-    .then(res => {
-      return this._checkResponse(res);
-    })
+    .then(res => this._checkResponse(res))
   }
 }
 

@@ -17,41 +17,33 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [selectedCard, setIsSelectedCard] = useState({});
-  const [currentUser, setCorrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
     api.getUserData()
-      .then(currentUser => {
-        setCorrentUser(currentUser);
-      })
+      .then(currentUser => setCurrentUser(currentUser))
+      .catch(err => console.log(`Error: ${err}`))
+    api.getInitialCards()
+      .then(cards => setCards(cards))
+      .catch(err => console.log(`Error: ${err}`))
   }, [])
 
-  useEffect(() => {
-    api.getInitialCards()
-      .then((cards) => {
-        setCards(cards);
-      })
-      .catch((err) => {
-        console.log(`Error: ${err}`);
-      })
-  }, []);
-
   function handleEditAvatarClick() {
-    setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
+    setIsEditAvatarPopupOpen(true);
   }
 
   function handleEditProfileClick() {
-    setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
+    setIsEditProfilePopupOpen(true);
   }
 
   function handleAddPlaceClick() {
-    setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
+    setIsAddPlacePopupOpen(true);
   }
 
   function handleCardClick(card) {
     setIsSelectedCard(card);
-    setIsImagePopupOpen(!isImagePopupOpen);
+    setIsImagePopupOpen(true);
   }
 
   function closeAllPopups() {
@@ -64,7 +56,7 @@ function App() {
   function handleUpdateUser(data) {
     api.setUserData(data)
       .then(res => {
-        setCorrentUser(res);
+        setCurrentUser(res);
         closeAllPopups();
       })
       .catch(err => console.log(`Error: ${err}`));
@@ -73,7 +65,7 @@ function App() {
   function handleUpdateAvatar(item) {
     api.editProfileAvatar(item)
       .then(res => {
-        setCorrentUser(res);
+        setCurrentUser(res);
         closeAllPopups();
       })
       .catch(err => console.log(`Error: ${err}`));
@@ -89,32 +81,25 @@ function App() {
     if (!isLiked) {
       // Отправляем запрос в API и получаем обновлённые данные карточки
       api.likeCard(card._id)
-        .then((newCard) => {
-          setLikeCardStatus(newCard);
-        })
-        .catch((err) => {
-          console.log(`Error: ${err}`);
-        });
+        .then(newCard => setLikeCardStatus(newCard))
+        .catch(err => console.log(`Error: ${err}`))
     } else {
       api.unlikeCard(card._id)
-        .then((newCard) => {
-          setLikeCardStatus(newCard);
-        })
-        .catch((err) => {
-          console.log(`Error: ${err}`);
-        });
+        .then(newCard => setLikeCardStatus(newCard))
+        .catch(err => console.log(`Error: ${err}`))
     }
   }
-
+  
   function handleCardDelete(card) {
-    const newArray = cards.filter(item => {
-      return item._id !== card._id;
-    })
+    
+    function setCardDeleteSatus() {
+      setCards(cards => cards.filter(item => item._id !== card._id))
+      console.log('cards', cards)
+    }
+
     api.deleteCard(card._id)
-      .then(setCards(newArray))
-      .catch((err) => {
-        console.log(`Error: ${err}`);
-      });
+      .then(() => setCardDeleteSatus())
+      .catch(err => console.log(`Error: ${err}`))
   }
 
   function handleAddPlaceSubmit(item) {
@@ -123,9 +108,7 @@ function App() {
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
-      .catch((err) => {
-        console.log(`Error: ${err}`);
-      })
+      .catch(err => console.log(`Error: ${err}`))
   }
 
   return ((

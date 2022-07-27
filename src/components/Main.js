@@ -48,7 +48,8 @@ function Main({ cards, onCardLike, onCardDelete, onEditProfile, onAddPlace, onEd
               key={card._id}
               onCardClick={onCardClick}
               onCardLike={onCardLike}
-              onCardDelete={onCardDelete} />
+              onCardDelete={onCardDelete}
+            />
           ))
         })}
       </section>

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 function PopupWithForm({ btnValue, children, isOpen, name, nameForm, onClose, onSubmit, title}) {
 
-  // Закрываем попапы по нажатию Escape
+  /** Закрываем попапы по нажатию Escape */
   const closeByEscape = (e) => {
     if (e.key === 'Escape') {
       onClose();
@@ -10,29 +10,25 @@ function PopupWithForm({ btnValue, children, isOpen, name, nameForm, onClose, on
   }
 
   useEffect(() => {
-    document.addEventListener('keydown', closeByEscape);
-
+    if (isOpen) {
+      document.addEventListener('keydown', closeByEscape);
+    }
+    
     return() => {
       document.removeEventListener('keydown', closeByEscape);
     }
+  });
 
-  }, []);
-
-  // Закрываем попапы по нажатию вне попапа
+  /** Закрываем попапы по нажатию вне попапа */
   const closeByClick = (e) => {
     e.target.classList.contains('popup') && onClose();
   }
 
-  useEffect(() => {
-    document.addEventListener('mousedown', closeByClick);
-
-    return () => {
-      document.removeEventListener('mousedown', closeByClick);
-    }
-  })
-
   return ((
-    <div className={`popup popup_${name} ${isOpen && 'popup_opened'}`}>
+    <div
+      className={`popup popup_${name} ${isOpen && 'popup_opened'}`}
+      onClick={closeByClick}
+    >
       <div className="popup__container">
         <button
           onClick={onClose}

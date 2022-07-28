@@ -76,10 +76,10 @@ function App() {
     function setLikeCardStatus(newCard) {
       setCards((state) => state.map(c => c._id === card._id ? newCard : c));
     }
-    // Снова проверяем, есть ли уже лайк на этой карточке
+    /** Снова проверяем, есть ли уже лайк на этой карточке */
     const isLiked = card.likes.some(i => i._id === currentUser._id)
     if (!isLiked) {
-      // Отправляем запрос в API и получаем обновлённые данные карточки
+      /** Отправляем запрос в API и получаем обновлённые данные карточки */
       api.likeCard(card._id)
         .then(newCard => setLikeCardStatus(newCard))
         .catch(err => console.log(`Error: ${err}`))
@@ -94,7 +94,6 @@ function App() {
     
     function setCardDeleteSatus() {
       setCards(cards => cards.filter(item => item._id !== card._id))
-      console.log('cards', cards)
     }
 
     api.deleteCard(card._id)

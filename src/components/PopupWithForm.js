@@ -1,23 +1,24 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 
 function PopupWithForm({ btnValue, children, isOpen, name, nameForm, onClose, onSubmit, title}) {
 
-  /** Закрываем попапы по нажатию Escape */
-  const closeByEscape = (e) => {
+  // /** Закрываем попапы по нажатию Escape */
+  const closeByEscape = useCallback((e) => {
     if (e.key === 'Escape') {
-      onClose();
-    }
-  }
+          onClose();
+        }
+  }, [onClose])
+
 
   useEffect(() => {
     if (isOpen) {
       document.addEventListener('keydown', closeByEscape);
+
+      return() => {
+        document.removeEventListener('keydown', closeByEscape);
+      }
     }
-    
-    return() => {
-      document.removeEventListener('keydown', closeByEscape);
-    }
-  });
+  }, [isOpen, closeByEscape]);
 
   /** Закрываем попапы по нажатию вне попапа */
   const closeByClick = (e) => {
